@@ -12,7 +12,7 @@ const Users = () => {
     const humans = number > 5 || number === 1 ? 'человек' : 'человека'
     const pharse =
       number === 0 ? 'Никто с тобой не тусанет' : `${number} ${humans} тусанет с тобой сегодня`
-    return <span class={`badge bg-${badgeColor}`}>{pharse}</span>
+    return <span className={`badge bg-${badgeColor}`}>{pharse}</span>
   }
 
   return (
@@ -48,11 +48,7 @@ const Users = () => {
                 <td>{completedMeetings}</td>
                 <td>{rate}</td>
                 <td>
-                  <button
-                    type='button'
-                    className='btn btn-danger'
-                    onClick={() => handleDelete(user._id)}
-                  >
+                  <button type='button' className='btn btn-danger' onClick={() => handleDelete(id)}>
                     Delete
                   </button>
                 </td>
