@@ -1,12 +1,20 @@
-import React from 'react'
-import BookMark from './bookmark'
-import Qualitie from './qualitie'
+import React from "react"
+import BookMark from "./bookmark"
+import Qualitie from "./qualitie"
+import PropTypes from "prop-types"
 
 const User = ({ users, ...rest }) => {
   return (
     <>
       {users.map((user) => {
-        const { name, _id: id, qualities, profession, completedMeetings, rate } = user
+        const {
+          name,
+          _id: id,
+          qualities,
+          profession,
+          completedMeetings,
+          rate
+        } = user
         return (
           <tr key={id}>
             <td>{name}</td>
@@ -22,7 +30,11 @@ const User = ({ users, ...rest }) => {
               <BookMark {...user} {...rest} />
             </td>
             <td>
-              <button type='button' className='btn btn-danger' onClick={() => rest.onDelete(id)}>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => rest.onDelete(id)}
+              >
                 Delete
               </button>
             </td>
@@ -31,6 +43,9 @@ const User = ({ users, ...rest }) => {
       })}
     </>
   )
+}
+User.propTypes = {
+  users: PropTypes.array
 }
 
 export default User
