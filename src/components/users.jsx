@@ -12,7 +12,7 @@ const Users = ({ users: allUsers, ...rest }) => {
     setCurrentPage(pageIndex)
   }
 
-  const users = paginate(allUsers, currentPage, pageSize)
+  const usersCrop = paginate(allUsers, currentPage, pageSize)
   return (
     <>
       {count > 0 && (
@@ -29,7 +29,9 @@ const Users = ({ users: allUsers, ...rest }) => {
             </tr>
           </thead>
           <tbody>
-            <User onDelete={rest.onDelete} users={users} {...rest} />
+            {usersCrop.map((user) => (
+              <User key={user._id} {...user} {...rest} />
+            ))}
           </tbody>
         </table>
       )}
