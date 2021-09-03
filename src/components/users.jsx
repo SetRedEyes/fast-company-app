@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import User from "./user"
-import Pagination from "../components/pagiation"
+import Pagination from "./pagination"
 import { paginate } from "../utils/paginate"
 import PropTypes from "prop-types"
 

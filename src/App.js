@@ -10,7 +10,7 @@ function App() {
     setUsers((users) => users.filter((user) => user._id !== userId))
   }
 
-  const handleToggleBookmark = (id) => {
+  const handleToggleBookMark = (id) => {
     const newUsers = [...users]
     const userIndex = newUsers.findIndex((u) => u._id === id)
     newUsers[userIndex].bookmark = !newUsers[userIndex].bookmark
@@ -22,7 +22,7 @@ function App() {
       <Users
         users={users}
         onDelete={handleDelete}
-        onToggleBookmark={handleToggleBookmark}
+        onToggleBookMark={handleToggleBookMark}
       />
     </div>
   )
