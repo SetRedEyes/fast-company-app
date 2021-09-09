@@ -1,6 +1,6 @@
 import React from "react"
 import BookMark from "./bookmark"
-import Qualitie from "./quality"
+import Qualitie from "./qualitie"
 import PropTypes from "prop-types"
 
 const User = ({
