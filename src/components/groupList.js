@@ -8,6 +8,8 @@ const GroupList = ({
   onItemSelect,
   selectedItem
 }) => {
+  console.log(selectedItem)
+  Object.keys(items).map((item) => console.log(items[item]))
   return (
     <ul className="list-group">
       {Object.keys(items).map((item) => (
@@ -32,7 +34,7 @@ GroupList.defaultProps = {
 }
 
 GroupList.propTypes = {
-  items: PropTypes.object.isRequired,
+  items: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   valueProperty: PropTypes.string.isRequired,
   contentProperty: PropTypes.string.isRequired,
   onItemSelect: PropTypes.func,
