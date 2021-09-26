@@ -18,7 +18,6 @@ const UserPage = () => {
     history.push("/users")
   }
 
-  console.log(user)
   if (user) {
     return (
       <>
