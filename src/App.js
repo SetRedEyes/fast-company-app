@@ -1,23 +1,20 @@
 import React from "react"
-import Users from "./components/users"
+import { Switch, Route, Redirect } from "react-router-dom"
+
+import Users from "./layouts/users"
+import Main from "./layouts/main"
+import Login from "./layouts/login"
 import NavBar from "./components/navBar"
-import { Switch, Route } from "react-router-dom"
-import Main from "./components/main"
-import Login from "./components/login"
-import UserPage from "./components/userPage"
 
 function App() {
   return (
     <div>
       <NavBar />
       <Switch>
-        <Route path="/" exact component={Main} />
+        <Route path="/users/:userId?" component={Users} />
         <Route path="/login" component={Login} />
-        <Route
-          path="/users/:userId"
-          render={(props) => <UserPage {...props} />}
-        />
-        <Route path="/users" component={Users} />
+        <Route path="/" exact component={Main} />
+        <Redirect to="/" />
       </Switch>
     </div>
   )
