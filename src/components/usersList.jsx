@@ -14,6 +14,7 @@ const UsersList = () => {
   const [professions, setProfessions] = useState()
   const [selectedProf, setSelectedProf] = useState()
   const [sortBy, setSortBy] = useState({ path: "name", order: "asc" })
+  const [searchValue, setSearchValue] = useState("")
   const pageSize = 8
 
   const [users, setUsers] = useState()
@@ -53,13 +54,23 @@ const UsersList = () => {
     setSortBy(item)
   }
 
+  const handleSearch = (value) => {
+    setSearchValue(value)
+    console.log(value)
+  }
+
   if (users) {
+    const searchedUsers = users.filter((user) =>
+      user.name.toLowerCase().includes(searchValue.toLowerCase())
+    )
+
     const filteredUsers = selectedProf
-      ? users.filter(
+      ? searchedUsers.filter(
         (user) =>
           JSON.stringify(user.profession) === JSON.stringify(selectedProf)
       )
-      : users
+      : searchedUsers
+
     const count = filteredUsers.length
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order])
     const usersCrop = paginate(sortedUsers, currentPage, pageSize)
@@ -81,7 +92,7 @@ const UsersList = () => {
         )}
         <div className="d-flex flex-column">
           <SearchStatus length={count} />
-          <Search/>
+          <Search onSearch={handleSearch} />
           {count > 0 && (
             <UsersTable
               users={usersCrop}
