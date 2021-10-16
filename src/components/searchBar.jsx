@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const Search = ({ onSearch }) => {
+const SearchBar = ({ onSearch }) => {
   return (
     <input
       type="text"
@@ -12,8 +12,8 @@ const Search = ({ onSearch }) => {
   )
 }
 
-Search.propTypes = {
+SearchBar.propTypes = {
   onSearch: PropTypes.func
 }
 
-export default Search
+export default SearchBar
