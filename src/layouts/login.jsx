@@ -51,7 +51,7 @@ const Login = () => {
           <h3 className="mb-4">Логин</h3>
           <form onSubmit={handleSubmit}>
             <TextField
-              label={"Электронная почта"}
+              label="Электронная почта"
               name="email"
               value={data.email}
               onChange={handleChange}
@@ -65,7 +65,11 @@ const Login = () => {
               onChange={handleChange}
               error={errors.password}
             />
-            <button type="submit" disabled={isValid} className='btn btn-primary w-100 mx-auto'>
+            <button
+              type="submit"
+              disabled={isValid}
+              className="btn btn-primary w-100 mx-auto"
+            >
               Submit
             </button>
           </form>
