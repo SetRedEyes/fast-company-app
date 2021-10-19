@@ -7,14 +7,13 @@ import api from "../api"
 import SearchStatus from "./searchStatus"
 import UsersTable from "./usersTable"
 import _ from "lodash"
-import SearchBar from "./searchBar"
 
 const UsersList = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [professions, setProfessions] = useState()
   const [selectedProf, setSelectedProf] = useState()
   const [sortBy, setSortBy] = useState({ path: "name", order: "asc" })
-  const [searchValue, setSearchValue] = useState("")
+  const [searchQuery, setSearchQuery] = useState("")
   const pageSize = 8
 
   const [users, setUsers] = useState()
@@ -40,9 +39,10 @@ const UsersList = () => {
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [selectedProf])
+  }, [selectedProf, searchQuery])
 
   const handleProfessionSelect = (item) => {
+    if (searchQuery !== "") setSearchQuery("")
     setSelectedProf(item)
   }
 
@@ -54,22 +54,22 @@ const UsersList = () => {
     setSortBy(item)
   }
 
-  const handleSearch = (value) => {
-    setSearchValue(value)
-    console.log(value)
+  const handleSearch = ({ target }) => {
+    setSelectedProf(undefined)
+    setSearchQuery(target.value)
   }
 
   if (users) {
-    const searchedUsers = users.filter((user) =>
-      user.name.toLowerCase().includes(searchValue.toLowerCase())
-    )
-
-    const filteredUsers = selectedProf
-      ? searchedUsers.filter(
-        (user) =>
-          JSON.stringify(user.profession) === JSON.stringify(selectedProf)
-      )
-      : searchedUsers
+    const filteredUsers = searchQuery
+      ? users.filter((user) =>
+          user.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      : selectedProf
+      ? users.filter(
+          (user) =>
+            JSON.stringify(user.profession) === JSON.stringify(selectedProf)
+        )
+      : users
 
     const count = filteredUsers.length
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order])
@@ -92,7 +92,14 @@ const UsersList = () => {
         )}
         <div className="d-flex flex-column">
           <SearchStatus length={count} />
-          <SearchBar onSearch={handleSearch} />
+          <input
+            type="text"
+            className="form-control"
+            name="searchQuery"
+            placeholder="Search..."
+            onChange={handleSearch}
+            value={searchQuery}
+          />
           {count > 0 && (
             <UsersTable
               users={usersCrop}

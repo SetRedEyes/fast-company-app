@@ -18,6 +18,8 @@ module.exports = {
       { anonymous: "always", named: "never" }
     ],
     semi: ["error", "never"],
+    indent: [0, 4],
+
     quotes: ["error", "double", { allowTemplateLiterals: true }]
   }
 }
