@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
-import TextField from "../components/textField"
-import { validator } from "../utils/validator"
+import TextField from "../common/form/textField"
+import { validator } from "../../../utils/validator"
 
-const Login = () => {
+const LoginForm = () => {
   const [data, setData] = useState({ email: "", password: "" })
   const [errors, setErrors] = useState({})
 
@@ -45,38 +45,31 @@ const Login = () => {
   }
 
   return (
-    <div className="container mt-5 ">
-      <div className="row">
-        <div className="col-md-6 offset-md-3 shadow p-4">
-          <h3 className="mb-4">Логин</h3>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              label="Электронная почта"
-              name="email"
-              value={data.email}
-              onChange={handleChange}
-              error={errors.email}
-            />
-            <TextField
-              label={"Пароль"}
-              type="password"
-              name="password"
-              value={data.password}
-              onChange={handleChange}
-              error={errors.password}
-            />
-            <button
-              type="submit"
-              disabled={isValid}
-              className="btn btn-primary w-100 mx-auto"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <TextField
+        label="Электронная почта"
+        name="email"
+        value={data.email}
+        onChange={handleChange}
+        error={errors.email}
+      />
+      <TextField
+        label={"Пароль"}
+        type="password"
+        name="password"
+        value={data.password}
+        onChange={handleChange}
+        error={errors.password}
+      />
+      <button
+        type="submit"
+        disabled={isValid}
+        className="btn btn-primary w-100 mx-auto"
+      >
+        Submit
+      </button>
+    </form>
   )
 }
 
-export default Login
+export default LoginForm
