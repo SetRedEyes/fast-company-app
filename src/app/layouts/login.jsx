@@ -14,11 +14,10 @@ const Login = () => {
   }
 
   return (
-    <div className="container mt-5 ">
+    <div className="container mt-3 ">
       <div className="row">
         <div className="col-md-6 offset-md-3 shadow p-4">
-          {formType === "register"
-? (
+          {formType === "register" ? (
             <>
               <h3 className="mb-4">Регистрация</h3>
 
@@ -31,8 +30,7 @@ const Login = () => {
                 </a>
               </p>
             </>
-          )
-: (
+          ) : (
             <>
               <h3 className="mb-4">Вход</h3>
 

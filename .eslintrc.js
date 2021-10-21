@@ -17,6 +17,7 @@ module.exports = {
       "error",
       { anonymous: "always", named: "never" }
     ],
+    "multiline-ternary": "off",
     semi: ["error", "never"],
     indent: [0, 4],
     quotes: ["error", "double", { allowTemplateLiterals: true }]

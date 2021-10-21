@@ -4,6 +4,10 @@ import PropTypes from "prop-types"
 const TextField = ({ label, type, name, value, onChange, error }) => {
   const [showPassoword, setShowPassoword] = useState(false)
 
+  const handleChange = ({ target }) => {
+    onChange({ name: [target.name], value: target.value })
+  }
+
   const toggleShowPassword = () => {
     setShowPassoword((prevState) => !prevState)
   }
@@ -21,7 +25,7 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
           id={name}
           name={name}
           value={value}
-          onChange={onChange}
+          onChange={handleChange}
           className={getInputClasses()}
         />
         {type === "password" && (
