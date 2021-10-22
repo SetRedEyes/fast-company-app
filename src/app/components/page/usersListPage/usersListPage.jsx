@@ -121,7 +121,7 @@ const UsersListPage = () => {
       </div>
     )
   }
-  return "Loading..."
+  return <h1 className="ms-3">Loading...</h1>
 }
 UsersListPage.propTypes = {
   users: PropTypes.array
