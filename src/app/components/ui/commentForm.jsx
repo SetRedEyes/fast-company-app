@@ -7,10 +7,11 @@ import PropTypes from "prop-types"
 
 const CommentForm = ({ userId, handleNewComment }) => {
   const initialState = { pageId: "", content: "", userId }
+  const [data, setData] = useState(initialState)
+
   const [users, setUsers] = useState()
   const [errors, setErrors] = useState({})
-  const [data, setData] = useState(initialState)
-  console.log("FORM", userId)
+
   useEffect(() => {
     api.users.fetchAll().then((data) => setUsers(data))
   }, [])
