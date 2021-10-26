@@ -7,6 +7,7 @@ import SelectField from "../../common/form/selectField"
 import RadioField from "../../common/form/radioField"
 import MultiSelectField from "../../common/form/multiSelectField"
 import { useHistory } from "react-router"
+import { Link } from "react-router-dom"
 
 const EditPage = ({ userId }) => {
   const history = useHistory()
@@ -77,56 +78,64 @@ const EditPage = ({ userId }) => {
 
   if (professions) {
     return (
-      <div className="container mt-3">
-        <form onSubmit={handleSubmit} className="ms-3">
-          <TextField
-            label="Имя"
-            name="name"
-            value={data.name}
-            onChange={handleChange}
-            error={errors.name}
-          />
-          <TextField
-            label="Электронная почта"
-            name="email"
-            value={data.email}
-            onChange={handleChange}
-            error={errors.email}
-          />
-          <SelectField
-            defaultOption="Выбрать..."
-            error={errors.profession}
-            value={data.profession._id || data.profession}
-            label="Выберите свою профессию"
-            options={professions}
-            onChange={handleChange}
-          />
-          <RadioField
-            options={[
-              { name: "Male", value: "male" },
-              { name: "Female", value: "female" },
-              { name: "Other", value: "other" }
-            ]}
-            value={data.sex}
-            name="sex"
-            onChange={handleChange}
-            label="Выберите ваш пол"
-          />
-          <MultiSelectField
-            options={qualities}
-            onChange={handleChange}
-            name="qualities"
-            label="Выберите ваши качества"
-            defaultValue={data.qualities}
-          />
-          <button
-            type="submit"
-            disabled={isValid}
-            className="btn btn-primary w-100 mx-auto"
-          >
-            Изменить
-          </button>
-        </form>
+      <div className="container mt-3 ">
+        <Link to={`/users/${userId}`} className="btn btn-primary">
+          Назад
+        </Link>
+        <div className="row">
+          <div className="col-md-6 offset-md-3 shadow p-4">
+            <form onSubmit={handleSubmit} className="ms-3">
+              <TextField
+                label="Имя"
+                name="name"
+                value={data.name}
+                onChange={handleChange}
+                error={errors.name}
+              />
+              <TextField
+                label="Электронная почта"
+                name="email"
+                value={data.email}
+                onChange={handleChange}
+                error={errors.email}
+              />
+              <SelectField
+                defaultOption="Выбрать..."
+                error={errors.profession}
+                value={data.profession._id || data.profession}
+                label="Выберите свою профессию"
+                options={professions}
+                onChange={handleChange}
+                name="profession"
+              />
+              <RadioField
+                options={[
+                  { name: "Male", value: "male" },
+                  { name: "Female", value: "female" },
+                  { name: "Other", value: "other" }
+                ]}
+                value={data.sex}
+                name="sex"
+                onChange={handleChange}
+                label="Выберите ваш пол"
+              />
+              <MultiSelectField
+                options={qualities}
+                onChange={handleChange}
+                name="qualities"
+                label="Выберите ваши качества"
+                defaultValue={data.qualities}
+              />
+              <button
+                type="submit"
+                disabled={isValid}
+                className="btn btn-primary w-100 mx-auto"
+              >
+                Изменить
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     )
   } else {

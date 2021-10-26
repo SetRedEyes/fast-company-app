@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 
 const SelectField = ({
+  name,
   label,
   value,
   onChange,
@@ -35,14 +36,17 @@ const SelectField = ({
         id="validationCustom04"
         value={value}
         onChange={handleChange}
-        name="profession"
+        name={name}
       >
         <option disabled value="">
           {defaultOption}
         </option>
         {optionsArray &&
           optionsArray.map((option) => (
-            <option key={option.value} value={option.value}>
+            <option
+              key={option.value ?? option._id}
+              value={option.value ?? option._id}
+            >
               {option.name}
             </option>
           ))}
@@ -58,6 +62,7 @@ SelectField.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   error: PropTypes.string,
-  options: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
+  options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  name: PropTypes.string
 }
 export default SelectField

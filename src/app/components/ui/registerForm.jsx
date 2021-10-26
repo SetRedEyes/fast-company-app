@@ -96,6 +96,7 @@ const RegisterForm = () => {
         label="Выберите свою профессию"
         options={professions}
         onChange={handleChange}
+        name="profession"
       />
       <RadioField
         options={[
