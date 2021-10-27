@@ -3,17 +3,17 @@ import PropTypes from "prop-types"
 import Quality from "./quality"
 
 const QualitiesList = ({ qualities }) => {
-  return (
-    <>
-      {qualities.map((quality) => (
-        <Quality key={quality._id ?? quality.value} {...quality} />
-      ))}
-    </>
-  )
+    return (
+        <>
+            {qualities.map((quality) => (
+                <Quality key={quality.value} {...quality} />
+            ))}
+        </>
+    )
 }
 
 QualitiesList.propTypes = {
-  qualities: PropTypes.array
+    qualities: PropTypes.array
 }
 
 export default QualitiesList
