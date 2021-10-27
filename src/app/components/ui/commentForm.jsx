@@ -5,10 +5,9 @@ import { validator } from "../../../utils/validator"
 import TextAreaField from "../common/form/textAreaField"
 import PropTypes from "prop-types"
 
-const CommentForm = ({ userId, handleNewComment }) => {
-  const initialState = { pageId: "", content: "", userId }
+const CommentForm = ({ pageId, handleNewComment }) => {
+  const initialState = { userId: "", content: "", pageId }
   const [data, setData] = useState(initialState)
-
   const [users, setUsers] = useState()
   const [errors, setErrors] = useState({})
 
@@ -17,6 +16,7 @@ const CommentForm = ({ userId, handleNewComment }) => {
   }, [])
 
   const handleChange = (target) => {
+    console.log(target)
     setData((prevState) => ({
       ...prevState,
       [target.name]: target.value
@@ -24,7 +24,7 @@ const CommentForm = ({ userId, handleNewComment }) => {
   }
 
   const validatorConig = {
-    pageId: {
+    userId: {
       isRequired: { message: "Обязательно выберите получателя" }
     },
     content: { isRequired: { message: "Введите текст сообщения" } }
@@ -48,7 +48,7 @@ const CommentForm = ({ userId, handleNewComment }) => {
     if (!isValid) return
     api.comments.add(data)
     console.log(data)
-    handleNewComment(data.userId)
+    handleNewComment(data.pageId)
     setData(initialState)
   }
 
@@ -61,12 +61,12 @@ const CommentForm = ({ userId, handleNewComment }) => {
             <div className="mb-4">
               <SelectField
                 defaultOption="Выберите пользователя..."
-                error={errors.pageId}
-                value={data.pageId}
+                error={errors.userId}
+                value={data.userId}
                 label="Выберите пользователя"
                 options={users}
                 onChange={handleChange}
-                name="pageId"
+                name="userId"
               />
             </div>
             <TextAreaField
@@ -88,7 +88,7 @@ const CommentForm = ({ userId, handleNewComment }) => {
 
 CommentForm.propTypes = {
   handleNewComment: PropTypes.func,
-  userId: PropTypes.string
+  pageId: PropTypes.string
 }
 
 export default CommentForm

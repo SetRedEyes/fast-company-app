@@ -4,11 +4,11 @@ import CommentForm from "../commentForm"
 import Comment from "./comment"
 import PropTypes from "prop-types"
 
-const CommentList = ({ userId }) => {
+const CommentList = ({ pageId }) => {
   const [comments, setComments] = useState([])
 
   useEffect(() => {
-    const comments = api.comments.fetchCommentsForUser(userId)
+    const comments = api.comments.fetchCommentsForUser(pageId)
     if (comments) {
       comments.then((data) => {
         data.sort((a, b) => b.created_at - a.created_at)
@@ -34,7 +34,7 @@ const CommentList = ({ userId }) => {
       <div className="card mb-2">
         {""}
         <div className="card-body">
-          <CommentForm userId={userId} handleNewComment={handleNewComment} />
+          <CommentForm pageId={pageId} handleNewComment={handleNewComment} />
         </div>
       </div>
       {comments.length !== 0 && (
@@ -53,6 +53,6 @@ const CommentList = ({ userId }) => {
   )
 }
 CommentList.propTypes = {
-  userId: PropTypes.string
+  pageId: PropTypes.string
 }
 export default CommentList

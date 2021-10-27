@@ -85,7 +85,7 @@ const UserPage = ({ userId }) => {
             </div>
           </div>
           <div className="col-md-8">
-            <Comments userId={userId} />
+            <Comments pageId={userId} />
           </div>
           <div></div>
         </div>
