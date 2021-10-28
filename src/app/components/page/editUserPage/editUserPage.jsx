@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
 import api from "../../../api"
-import { validator } from "../../../../utils/validator"
+import { validator } from "../../../utils/validator"
 import TextField from "../../common/form/textField"
 import SelectField from "../../common/form/selectField"
 import RadioField from "../../common/form/radioField"
 import MultiSelectField from "../../common/form/multiSelectField"
 import { useHistory, useParams } from "react-router"
-import { Link } from "react-router-dom"
+import BackHistoryButton from "../../common/backButton"
 
 const EditUserPage = () => {
     const history = useHistory()
@@ -105,9 +105,7 @@ const EditUserPage = () => {
 
     return (
         <div className="container mt-3 ">
-            <Link to={`/users/${userId}`} className="btn btn-primary">
-                Назад
-            </Link>
+            <BackHistoryButton />
             <div className="row">
                 <div className="col-md-6 offset-md-3 shadow p-4">
                     {!isLoading && Object.keys(professions).length > 0 ? (
