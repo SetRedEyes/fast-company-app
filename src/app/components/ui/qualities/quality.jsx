@@ -1,10 +1,10 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-const Quality = ({ color, name, _id, label }) => {
+const Quality = ({ color, name, _id }) => {
     return (
         <span className={`badge bg-${color} ms-2`} key={_id}>
-            {label}
+            {name}
         </span>
     )
 }

@@ -1,35 +1,35 @@
 import React, { useContext, useState, useEffect } from "react"
-import PropTypes from "prop-types"
-import professionService from "../services/profession.service"
 import { toast } from "react-toastify"
+import qualityService from "../services/quality.service"
+import PropTypes from "prop-types"
 
-const ProfessionContext = React.createContext()
+const QualitiesContext = React.createContext()
 
-export const useProfessions = () => {
-    return useContext(ProfessionContext)
+export const useQualities = () => {
+    return useContext(QualitiesContext)
 }
 
-export const ProfessionProvider = ({ children }) => {
+export const QualitiesProvider = ({ children }) => {
     const [isLoading, setLoading] = useState(true)
-    const [professions, setProfessions] = useState([])
+    const [qualities, setQualities] = useState([])
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        getProfessionsList()
+        getQualitiesList()
     }, [])
 
-    async function getProfessionsList() {
+    async function getQualitiesList() {
         try {
-            const { content } = await professionService.get()
-            setProfessions(content)
+            const { content } = await qualityService.get()
+            setQualities(content)
             setLoading(false)
         } catch (error) {
             errorCatcher(error)
         }
     }
 
-    function getProfession(id) {
-        return professions.find((p) => p._id === id)
+    function getQuality(id) {
+        return qualities.find((p) => p._id === id)
     }
 
     useEffect(() => {
@@ -45,15 +45,13 @@ export const ProfessionProvider = ({ children }) => {
     }
 
     return (
-        <ProfessionContext.Provider
-            value={{ isLoading, professions, getProfession }}
-        >
+        <QualitiesContext.Provider value={{ isLoading, qualities, getQuality }}>
             {children}
-        </ProfessionContext.Provider>
+        </QualitiesContext.Provider>
     )
 }
 
-ProfessionProvider.propTypes = {
+QualitiesProvider.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node
