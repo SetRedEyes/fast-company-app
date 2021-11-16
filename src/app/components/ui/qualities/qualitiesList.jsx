@@ -4,14 +4,13 @@ import Quality from "./quality"
 import { useQualities } from "../../../hooks/useQualities"
 
 const QualitiesList = ({ qualities }) => {
-    const { isLoading, getQuality } = useQualities()
-    const qual = qualities.map((q) => getQuality(q))
+    const { isLoading } = useQualities()
 
     if (!isLoading) {
         return (
             <>
-                {qual.map((q) => (
-                    <Quality key={q._id} {...q} />
+                {qualities.map((qual) => (
+                    <Quality key={qual} id={qual} />
                 ))}
             </>
         )
@@ -19,8 +18,7 @@ const QualitiesList = ({ qualities }) => {
 }
 
 QualitiesList.propTypes = {
-    qualities: PropTypes.array,
-    id: PropTypes.string
+    qualities: PropTypes.array
 }
 
 export default QualitiesList

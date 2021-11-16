@@ -14,15 +14,15 @@ function App() {
         <div>
             <NavBar />
             <Switch>
-                <ProfessionProvider>
-                    <QualitiesProvider>
+                <QualitiesProvider>
+                    <ProfessionProvider>
                         <Route
                             path="/users/:userId?/:edit?"
                             component={Users}
                         />
                         <Route path="/login/:type?" component={Login} />
-                    </QualitiesProvider>
-                </ProfessionProvider>
+                    </ProfessionProvider>
+                </QualitiesProvider>
                 <Route path="/" exact component={Main} />
                 <Redirect to="/" />
             </Switch>
