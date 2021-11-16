@@ -1,37 +1,39 @@
-import React, { useContext, useState, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import qualityService from "../services/quality.service"
 import PropTypes from "prop-types"
+import qualityService from "../services/quality.service"
 
-const QualitiesContext = React.createContext()
+const QualitiesContex = React.createContext()
 
 export const useQualities = () => {
-    return useContext(QualitiesContext)
+    return useContext(QualitiesContex)
 }
 
 export const QualitiesProvider = ({ children }) => {
-    const [isLoading, setLoading] = useState(true)
     const [qualities, setQualities] = useState([])
     const [error, setError] = useState(null)
+    const [isLoading, setLoading] = useState(true)
 
     useEffect(() => {
-        getQualitiesList()
-    }, [])
-
-    async function getQualitiesList() {
-        try {
-            const { content } = await qualityService.get()
-            setQualities(content)
-            setLoading(false)
-        } catch (error) {
-            errorCatcher(error)
+        const getQualities = async () => {
+            try {
+                const { content } = await qualityService.fetchAll()
+                setQualities(content)
+                setLoading(false)
+            } catch (error) {
+                errorCatcher(error)
+            }
         }
+        getQualities()
+    }, [])
+    const getQuality = (id) => {
+        return qualities.find((q) => q._id === id)
     }
 
-    function getQuality(id) {
-        return qualities.find((p) => p._id === id)
+    function errorCatcher(error) {
+        const { message } = error.response.data
+        setError(message)
     }
-
     useEffect(() => {
         if (error !== null) {
             toast(error)
@@ -39,15 +41,16 @@ export const QualitiesProvider = ({ children }) => {
         }
     }, [error])
 
-    function errorCatcher(error) {
-        const { message } = error.response.data
-        setError(message)
-    }
-
     return (
-        <QualitiesContext.Provider value={{ isLoading, qualities, getQuality }}>
+        <QualitiesContex.Provider
+            value={{
+                qualities,
+                getQuality,
+                isLoading
+            }}
+        >
             {children}
-        </QualitiesContext.Provider>
+        </QualitiesContex.Provider>
     )
 }
 

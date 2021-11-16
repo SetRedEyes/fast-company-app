@@ -18,7 +18,6 @@ const UsersListPage = () => {
     const pageSize = 8
 
     const { users } = useUsers()
-    console.log(users)
     const handleDelete = (userId) => {
         // setUsers((users) => users.filter((user) => user._id !== userId))
         console.log(userId)

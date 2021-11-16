@@ -5,16 +5,14 @@ import { useQualities } from "../../../hooks/useQualities"
 
 const QualitiesList = ({ qualities }) => {
     const { isLoading } = useQualities()
-
-    if (!isLoading) {
-        return (
-            <>
-                {qualities.map((qual) => (
-                    <Quality key={qual} id={qual} />
-                ))}
-            </>
-        )
-    } else return "Loading"
+    if (isLoading) return "Loadind ..."
+    return (
+        <>
+            {qualities.map((qual) => (
+                <Quality key={qual} id={qual} />
+            ))}
+        </>
+    )
 }
 
 QualitiesList.propTypes = {
