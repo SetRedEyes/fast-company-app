@@ -80,7 +80,7 @@ const RegisterForm = () => {
         return Object.keys(errors).length === 0
     }
 
-    const isValid = Object.keys(errors).length !== 0
+    const isValid = Object.keys(errors).length === 0
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -155,7 +155,7 @@ const RegisterForm = () => {
 
             <button
                 type="submit"
-                disabled={isValid}
+                disabled={!isValid}
                 className="btn btn-primary w-100 mx-auto"
             >
                 Submit
