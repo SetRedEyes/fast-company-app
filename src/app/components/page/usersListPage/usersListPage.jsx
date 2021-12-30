@@ -3,25 +3,27 @@ import Pagination from "../../common/pagination"
 import { paginate } from "../../../utils/paginate"
 import PropTypes from "prop-types"
 import GroupList from "../../common/groupList"
-import api from "../../../api"
 import SearchStatus from "../../ui/searchStatus"
 import UsersTable from "../../ui/usersTable"
 import _ from "lodash"
 import { useUsers } from "../../../hooks/useUsers"
+import { useProfessions } from "../../../hooks/useProfession"
+import { useAuth } from "../../../hooks/useAuth"
 
 const UsersListPage = () => {
+    const { users } = useUsers()
+    const { currentUser } = useAuth()
+    const { isLoading: professionsLoading, professions } = useProfessions()
     const [currentPage, setCurrentPage] = useState(1)
-    const [professions, setProfessions] = useState()
     const [selectedProf, setSelectedProf] = useState()
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" })
     const [searchQuery, setSearchQuery] = useState("")
     const pageSize = 8
 
-    const { users } = useUsers()
-    const handleDelete = (userId) => {
-        // setUsers((users) => users.filter((user) => user._id !== userId))
-        console.log(userId)
-    }
+    // const handleDelete = (userId) => {
+    //     // setUsers((users) => users.filter((user) => user._id !== userId))
+    //     console.log(userId)
+    // }
 
     const handleToggleBookMark = (id) => {
         const newUsers = [...users]
@@ -30,10 +32,6 @@ const UsersListPage = () => {
         // setUsers(newUsers)
         console.log(newUsers)
     }
-
-    useEffect(() => {
-        api.professions.fetchAll().then((data) => setProfessions(data))
-    }, [])
 
     useEffect(() => {
         setCurrentPage(1)
@@ -58,18 +56,23 @@ const UsersListPage = () => {
     }
 
     if (users) {
-        const filteredUsers = searchQuery
-            ? users.filter((user) =>
-                  user.name.toLowerCase().includes(searchQuery.toLowerCase())
-              )
-            : selectedProf
-            ? users.filter(
-                  (user) =>
-                      JSON.stringify(user.profession) ===
-                      JSON.stringify(selectedProf)
-              )
-            : users
-
+        function filterUsers(data) {
+            const filteredUsers = searchQuery
+                ? data.filter((user) =>
+                      user.name
+                          .toLowerCase()
+                          .includes(searchQuery.toLowerCase())
+                  )
+                : selectedProf
+                ? data.filter(
+                      (user) =>
+                          JSON.stringify(user.profession) ===
+                          JSON.stringify(selectedProf)
+                  )
+                : data
+            return filteredUsers.filter((u) => u._id !== currentUser._id)
+        }
+        const filteredUsers = filterUsers(users)
         const count = filteredUsers.length
         const sortedUsers = _.orderBy(
             filteredUsers,
@@ -81,7 +84,7 @@ const UsersListPage = () => {
 
         return (
             <div className="d-flex">
-                {professions && (
+                {professions && !professionsLoading && (
                     <div className="d-flex flex-column flex-shrink-0 p-3">
                         <GroupList
                             selectedItem={selectedProf}
@@ -110,7 +113,7 @@ const UsersListPage = () => {
                         <UsersTable
                             users={usersCrop}
                             onSort={handleSort}
-                            onDelete={handleDelete}
+                            // onDelete={handleDelete}
                             onToggleBookMark={handleToggleBookMark}
                             selectedSort={sortBy}
                         />
