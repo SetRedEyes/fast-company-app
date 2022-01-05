@@ -22,6 +22,6 @@ export function displayDate(data) {
         })}`
     }
     return (
-        date.getFullYear() + "." + (date.getMonth() + 1) + "_" + date.getDate()
+        date.getFullYear() + "." + (date.getMonth() + 1) + "." + date.getDate()
     )
 }
