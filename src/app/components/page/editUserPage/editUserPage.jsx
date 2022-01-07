@@ -19,7 +19,7 @@ const EditUserPage = () => {
     }))
 
     const { qualities } = useQualities()
-    console.log(qualities)
+    console.log(professions)
     const qualitiesList = qualities.map((q) => ({
         label: q.name,
         value: q._id
@@ -35,13 +35,6 @@ const EditUserPage = () => {
     })
     const [errors, setErrors] = useState({})
 
-    const getProfessionById = (id) => {
-        for (const prof in professions) {
-            const profData = professions[prof]._id
-            if (profData._id === id) return profData
-        }
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault()
         const isValid = validate()
@@ -50,7 +43,7 @@ const EditUserPage = () => {
         try {
             await update({
                 ...data,
-                profession: getProfessionById(profession._id),
+                profession: profession,
                 qualities: qualities.map((q) => q.value)
             })
             history.push(`/users/${data._id}`)
@@ -73,6 +66,7 @@ const EditUserPage = () => {
             )
         }))
     }, [])
+    console.log(data)
 
     useEffect(() => {
         if (data._id) setIsLoading(false)
@@ -141,7 +135,7 @@ const EditUserPage = () => {
                                 defaultOption="Выбрать..."
                                 options={professionsList}
                                 onChange={handleChange}
-                                value={data.profession._id}
+                                value={currentUser.profession}
                                 error={errors.profession}
                                 name="profession"
                             />
