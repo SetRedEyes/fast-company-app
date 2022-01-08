@@ -4,72 +4,79 @@ import TextField from "../../common/form/textField"
 import SelectField from "../../common/form/selectField"
 import RadioField from "../../common/form/radioField"
 import MultiSelectField from "../../common/form/multiSelectField"
-import { useHistory } from "react-router"
 import BackHistoryButton from "../../common/backButton"
 import { useProfessions } from "../../../hooks/useProfession"
 import { useAuth } from "../../../hooks/useAuth"
 import { useQualities } from "../../../hooks/useQualities"
+import { useHistory } from "react-router-dom"
 const EditUserPage = () => {
     const history = useHistory()
-    const { currentUser, update } = useAuth()
-    const { professions } = useProfessions()
+    const [isLoading, setIsLoading] = useState(true)
+    const [data, setData] = useState()
+    const { currentUser, updateUserData } = useAuth()
+
+    const { professions, isLoading: professionLoading } = useProfessions()
     const professionsList = professions.map((p) => ({
         label: p.name,
         value: p._id
     }))
 
-    const { qualities } = useQualities()
-    console.log(professions)
+    const { qualities, isLoading: qualitiesLoading } = useQualities()
     const qualitiesList = qualities.map((q) => ({
         label: q.name,
         value: q._id
     }))
-    const [isLoading, setIsLoading] = useState()
-    const [data, setData] = useState({
-        name: "",
-        email: "",
-        password: "",
-        profession: "",
-        sex: "male",
-        qualities: []
-    })
+
     const [errors, setErrors] = useState({})
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         const isValid = validate()
         if (!isValid) return
-        const { profession, qualities } = data
         try {
-            await update({
+            await updateUserData({
                 ...data,
-                profession: profession,
-                qualities: qualities.map((q) => q.value)
+                profession: data.profession,
+                qualities: data.qualities.map((q) => q.value)
             })
-            history.push(`/users/${data._id}`)
+            history.push(`/users/${currentUser._id}`)
         } catch (error) {
             setErrors(error)
         }
-
-        console.log("submit", data)
     }
 
-    useEffect(() => {
-        setIsLoading(true)
+    function getQualitiesListByIds(qualitiesIds) {
+        const qualitiesArray = []
+        for (const qualId of qualitiesIds) {
+            for (const quality of qualities) {
+                if (quality._id === qualId) {
+                    qualitiesArray.push(quality)
+                    break
+                }
+            }
+        }
+        return qualitiesArray
+    }
 
-        setData((prevState) => ({
-            ...prevState,
-            ...currentUser,
-            profession: currentUser.profession,
-            qualities: qualitiesList.filter((q) =>
-                currentUser.qualities.includes(q.value)
-            )
+    const transformData = (data) => {
+        return getQualitiesListByIds(data).map((qual) => ({
+            label: qual.name,
+            value: qual._id
         }))
-    }, [])
-    console.log(data)
+    }
+    useEffect(() => {
+        if (!professionLoading && !qualitiesLoading && currentUser && !data) {
+            setData({
+                ...currentUser,
+                qualities: transformData(currentUser.qualities)
+            })
+        }
+    }, [professionLoading, qualitiesLoading, currentUser, data])
 
     useEffect(() => {
-        if (data._id) setIsLoading(false)
+        if (data && isLoading) {
+            setIsLoading(false)
+        }
     }, [data])
 
     const validatorConfig = {
@@ -95,7 +102,10 @@ const EditUserPage = () => {
     }, [data])
 
     const handleChange = (target) => {
-        setData((prevState) => ({ ...prevState, [target.name]: target.value }))
+        setData((prevState) => ({
+            ...prevState,
+            [target.name]: target.value
+        }))
     }
 
     const validate = () => {
@@ -135,7 +145,7 @@ const EditUserPage = () => {
                                 defaultOption="Выбрать..."
                                 options={professionsList}
                                 onChange={handleChange}
-                                value={currentUser.profession}
+                                value={data.profession}
                                 error={errors.profession}
                                 name="profession"
                             />
@@ -156,7 +166,6 @@ const EditUserPage = () => {
                                 name="qualities"
                                 label="Выберите ваши качества"
                                 defaultValue={data.qualities}
-                                values
                             />
                             <button
                                 type="submit"
@@ -174,5 +183,4 @@ const EditUserPage = () => {
         </div>
     )
 }
-
 export default EditUserPage

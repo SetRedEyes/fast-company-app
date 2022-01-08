@@ -6,9 +6,7 @@ import { useProfessions } from "../../hooks/useProfession"
 const UserCard = ({ user }) => {
     const history = useHistory()
     const { currentUser } = useAuth()
-    const { getProfession } = useProfessions()
-    const { name } = getProfession(currentUser.profession)
-    console.log(name)
+    const { name: profession } = useProfessions().getProfession(user.profession)
 
     const handleClick = () => {
         history.push(history.location.pathname + "/edit")
@@ -35,7 +33,7 @@ const UserCard = ({ user }) => {
                     />
                     <div className="mt-3">
                         <h1>{user.name}</h1>
-                        <h2>Профессия: {name}</h2>
+                        <h2>Профессия: {profession}</h2>
                         <i className="bi bi-caret-down-fill text-primary"></i>
                         <i className="bi bi-caret-up text-primary"></i>
 

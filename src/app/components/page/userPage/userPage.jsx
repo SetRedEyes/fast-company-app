@@ -8,9 +8,7 @@ import { useUsers } from "../../../hooks/useUsers"
 import { CommentsProvider } from "../../../hooks/useComments"
 
 const UserPage = ({ userId }) => {
-    const { getUserById } = useUsers()
-    const user = getUserById(userId)
-
+    const user = useUsers().getUserById(userId)
     if (user) {
         return (
             <div className="container">
@@ -18,7 +16,7 @@ const UserPage = ({ userId }) => {
                     <div className="col-md-4 mb-3">
                         <UserCard user={user} />
                         <QualitiesCard data={user.qualities} />
-                        <MeeatingsCard value={user.meetings} />
+                        <MeeatingsCard value={user.completedMeetings} />
                     </div>
                     <div className="col-md-8">
                         <CommentsProvider>
