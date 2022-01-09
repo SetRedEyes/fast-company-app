@@ -123,8 +123,7 @@ const EditUserPage = () => {
                 <div className="col-md-6 offset-md-3 shadow p-4">
                     {!isLoading > 0 &&
                     currentUser.qualities.length > 0 &&
-                    Object.keys(professions).length > 0 &&
-                    Object.keys(qualities).length > 0 ? (
+                    Object.keys(professions).length > 0 ? (
                         <form onSubmit={handleSubmit} className="ms-3">
                             <TextField
                                 label="Имя"
