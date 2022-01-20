@@ -10,7 +10,7 @@ import { useAuth } from "../../hooks/useAuth"
 import { useHistory } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { getQualities } from "../../store/qualities"
-import { getProfessions } from "../../store/professions"
+import { getProfessionsList } from "../../store/professions"
 
 const RegisterForm = () => {
     const history = useHistory()
@@ -31,7 +31,7 @@ const RegisterForm = () => {
         value: q._id
     }))
 
-    const professions = useSelector(getProfessions())
+    const professions = useSelector(getProfessionsList())
     const professionsList = professions.map((p) => ({
         label: p.name,
         value: p._id

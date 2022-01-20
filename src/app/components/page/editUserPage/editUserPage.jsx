@@ -13,7 +13,7 @@ import {
     getQualitiesLoadingStatus
 } from "../../../store/qualities"
 import {
-    getProfessions,
+    getProfessionsList,
     getProfessionsLoadingStatus
 } from "../../../store/professions"
 const EditUserPage = () => {
@@ -22,7 +22,7 @@ const EditUserPage = () => {
     const [data, setData] = useState()
     const { currentUser, updateUserData } = useAuth()
 
-    const professions = useSelector(getProfessions())
+    const professions = useSelector(getProfessionsList())
     const professionsLoading = useSelector(getProfessionsLoadingStatus())
     const professionsList = professions.map((p) => ({
         label: p.name,
