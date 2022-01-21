@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Switch, Route, Redirect } from "react-router-dom"
 import { ToastContainer } from "react-toastify"
 
@@ -10,35 +10,26 @@ import LogOut from "./layouts/logout"
 import ProtectedRoute from "./components/common/protectedRoute"
 
 import AuthProvider from "./hooks/useAuth"
-
-import { useDispatch } from "react-redux"
-import { loadQualitiesList } from "./store/qualities"
-import { loadProfessionsList } from "./store/professions"
-import { loadUsersList } from "./store/users"
+import AppLoader from "./components/ui/hoc/appLoader"
 
 function App() {
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(loadQualitiesList())
-        dispatch(loadProfessionsList())
-        dispatch(loadUsersList())
-    }, [])
     return (
         <div>
-            <AuthProvider>
-                <NavBar />
-                <Switch>
-                    <ProtectedRoute
-                        path="/users/:userId?/:edit?"
-                        component={Users}
-                    />
-                    <Route path="/login/:type?" component={Login} />
-                    <Route path="/logout" component={LogOut} />
-                    <Route path="/" exact component={Main} />
-                    <Redirect to="/" />
-                </Switch>
-            </AuthProvider>
+            <AppLoader>
+                <AuthProvider>
+                    <NavBar />
+                    <Switch>
+                        <ProtectedRoute
+                            path="/users/:userId?/:edit?"
+                            component={Users}
+                        />
+                        <Route path="/login/:type?" component={Login} />
+                        <Route path="/logout" component={LogOut} />
+                        <Route path="/" exact component={Main} />
+                        <Redirect to="/" />
+                    </Switch>
+                </AuthProvider>
+            </AppLoader>
             <ToastContainer />
         </div>
     )

@@ -7,19 +7,19 @@ import SearchStatus from "../../ui/searchStatus"
 import UsersTable from "../../ui/usersTable"
 import _ from "lodash"
 
-import { useAuth } from "../../../hooks/useAuth"
 import { useSelector } from "react-redux"
 import {
     getProfessionsList,
     getProfessionsLoadingStatus
 } from "../../../store/professions"
-import { getUsersList } from "../../../store/users"
+import { getCurrentUserId, getUsersList } from "../../../store/users"
 
 const UsersListPage = () => {
     const users = useSelector(getUsersList())
-    const { currentUser } = useAuth()
+    const currentUserId = useSelector(getCurrentUserId())
     const professions = useSelector(getProfessionsList())
     const professionsLoading = useSelector(getProfessionsLoadingStatus())
+
     const [currentPage, setCurrentPage] = useState(1)
     const [selectedProf, setSelectedProf] = useState()
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" })
@@ -76,7 +76,7 @@ const UsersListPage = () => {
                           JSON.stringify(selectedProf)
                   )
                 : data
-            return filteredUsers.filter((u) => u._id !== currentUser._id)
+            return filteredUsers.filter((u) => u._id !== currentUserId)
         }
         const filteredUsers = filterUsers(users)
         const count = filteredUsers.length
