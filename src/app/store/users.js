@@ -2,6 +2,7 @@ import { createAction, createSlice } from "@reduxjs/toolkit"
 import authService from "../services/auth.service"
 import localStorageService from "../services/localStorage.service"
 import userService from "../services/user.service"
+import { geterateAuthError } from "../utils/generateAuthError"
 import getRandomInt from "../utils/getRandomInt"
 import history from "../utils/history"
 
@@ -64,6 +65,9 @@ const usersSlice = createSlice({
             state.isLoggedIn = false
             state.auth = null
             state.dataLoaded = false
+        },
+        authRequested: (state) => {
+            state.error = null
         }
     }
 })
@@ -73,6 +77,7 @@ const {
     usersRecieved,
     usersRequestFailed,
     usersRequested,
+    authRequested,
     authRequestSuccess,
     authRequestFailed,
     userCreated,
@@ -80,7 +85,6 @@ const {
     userLoggedOut
 } = actions
 
-const authRequested = createAction("users/authRequested")
 const userCreateRequested = createAction("users/userCreateRequested")
 const createUserFailed = createAction("users/createUserFailed")
 const updataUserFailed = createAction("users/updatataUserFailed")
@@ -96,7 +100,13 @@ export const login =
             localStorageService.setTokens(data)
             history.push(redirect)
         } catch (error) {
-            dispatch(authRequestFailed(error.message))
+            const { code, message } = error.response.data.error
+            if (code === 400) {
+                const errorMessage = geterateAuthError(message)
+                dispatch(authRequestFailed(errorMessage))
+            } else {
+                dispatch(authRequestFailed(error.message))
+            }
         }
     }
 
@@ -189,5 +199,6 @@ export function getCurrentUserId() {
         return state.users.auth.userId
     }
 }
+export const getAuthErrors = () => (state) => state.users.error
 
 export default usersReducer

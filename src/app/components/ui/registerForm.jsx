@@ -8,7 +8,7 @@ import CheckBoxField from "../common/form/checkBoxField"
 
 import { useDispatch, useSelector } from "react-redux"
 import { getQualities } from "../../store/qualities"
-import { getProfessionsList } from "../../store/professions"
+import { getProfessions } from "../../store/professions"
 import { signUp } from "../../store/users"
 
 const RegisterForm = () => {
@@ -28,7 +28,7 @@ const RegisterForm = () => {
         value: q._id
     }))
 
-    const professions = useSelector(getProfessionsList())
+    const professions = useSelector(getProfessions())
     const professionsList = professions.map((p) => ({
         label: p.name,
         value: p._id

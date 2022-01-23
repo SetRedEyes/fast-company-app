@@ -15,10 +15,10 @@ export const ProfessionProvider = ({ children }) => {
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        getProfessionsList()
+        getProfessions()
     }, [])
 
-    async function getProfessionsList() {
+    async function getProfessions() {
         try {
             const { content } = await professionService.get()
             setProfessions(content)

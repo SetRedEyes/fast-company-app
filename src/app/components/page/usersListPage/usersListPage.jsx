@@ -9,7 +9,7 @@ import _ from "lodash"
 
 import { useSelector } from "react-redux"
 import {
-    getProfessionsList,
+    getProfessions,
     getProfessionsLoadingStatus
 } from "../../../store/professions"
 import { getCurrentUserId, getUsersList } from "../../../store/users"
@@ -17,7 +17,7 @@ import { getCurrentUserId, getUsersList } from "../../../store/users"
 const UsersListPage = () => {
     const users = useSelector(getUsersList())
     const currentUserId = useSelector(getCurrentUserId())
-    const professions = useSelector(getProfessionsList())
+    const professions = useSelector(getProfessions())
     const professionsLoading = useSelector(getProfessionsLoadingStatus())
 
     const [currentPage, setCurrentPage] = useState(1)

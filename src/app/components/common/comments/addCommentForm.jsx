@@ -3,7 +3,7 @@ import TextAreaField from "../form/textAreaField"
 import { validator } from "../../../utils/validator"
 import PropTypes from "prop-types"
 
-const AddComentForm = ({ onSubmit }) => {
+const AddCommentForm = ({ onSubmit }) => {
     const [data, setData] = useState({})
     const [errors, setErrors] = useState({})
     const handleChange = (target) => {
@@ -53,8 +53,8 @@ const AddComentForm = ({ onSubmit }) => {
     )
 }
 
-AddComentForm.propTypes = {
+AddCommentForm.propTypes = {
     onSubmit: PropTypes.func
 }
 
-export default AddComentForm
+export default AddCommentForm

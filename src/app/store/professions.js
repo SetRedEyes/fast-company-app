@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import professionService from "../services/profession.service"
+import isOutdated from "../utils/isOutDated"
 
 const professionsSlice = createSlice({
     name: "professions",
@@ -29,13 +30,6 @@ const { actions, reducer: professionsReducer } = professionsSlice
 const { professionsRecieved, professionsRequestFailed, professionsRequested } =
     actions
 
-function isOutdated(date) {
-    if (Date.now() - date > 10 * 60 * 1000) {
-        return true
-    }
-    return false
-}
-
 export const loadProfessionsList = () => async (dispatch, getState) => {
     const { lastFetch } = getState().professions
     if (isOutdated(lastFetch)) {
@@ -49,7 +43,7 @@ export const loadProfessionsList = () => async (dispatch, getState) => {
     }
 }
 
-export const getProfessionsList = () => (state) => state.professions.entities
+export const getProfessions = () => (state) => state.professions.entities
 export const getProfessionsLoadingStatus = () => (state) =>
     state.professions.isLoading
 export const getProfessionById = (id) => (state) => {
