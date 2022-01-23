@@ -10,7 +10,6 @@ const SelectField = ({
     options,
     error
 }) => {
-    console.log(options)
     const handleChange = ({ target }) => {
         onChange({ name: [target.name], value: target.value })
     }

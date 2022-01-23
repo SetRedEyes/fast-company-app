@@ -16,7 +16,7 @@ const initialState = localStorageService.getAccessToken()
       }
     : {
           entities: null,
-          isLoading: true,
+          isLoading: false,
           error: null,
           auth: null,
           isLoggedIn: false,
@@ -48,6 +48,12 @@ const usersSlice = createSlice({
         },
         userCreated: (state, action) => {
             state.entities.push(action.payload)
+        },
+        userLoggedOut: (state) => {
+            state.entities = null
+            state.isLoggedIn = false
+            state.auth = null
+            state.dataLoaded = false
         }
     }
 })
@@ -59,7 +65,8 @@ const {
     usersRequested,
     authRequestSuccess,
     authRequestFailed,
-    userCreated
+    userCreated,
+    userLoggedOut
 } = actions
 
 const authRequested = createAction("users/authRequested")
@@ -88,6 +95,7 @@ export const signUp =
         try {
             const data = await authService.register({ email, password })
             localStorageService.setTokens(data)
+            console.log(data)
             dispatch(authRequestSuccess({ userId: data.localId }))
             dispatch(
                 createUser({
@@ -107,6 +115,12 @@ export const signUp =
             dispatch(authRequestFailed(error.message))
         }
     }
+
+export const logOut = () => (dispatch) => {
+    localStorageService.removeAuthData()
+    dispatch(userLoggedOut())
+    history.push("/")
+}
 
 function createUser(payload) {
     return async function (dispatch) {
@@ -132,6 +146,11 @@ export const loadUsersList = () => async (dispatch) => {
 }
 
 export const getUsersList = () => (state) => state.users.entities
+export const getCurrentUserData = () => (state) => {
+    return state.users.entities
+        ? state.users.entities.find((u) => u._id === state.users.auth.userId)
+        : null
+}
 
 export const getUserById = (userId) => (state) => {
     if (state.users.entities) {

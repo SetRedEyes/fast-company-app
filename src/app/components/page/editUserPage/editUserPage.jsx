@@ -16,11 +16,14 @@ import {
     getProfessionsList,
     getProfessionsLoadingStatus
 } from "../../../store/professions"
+import { getCurrentUserData } from "../../../store/users"
+
 const EditUserPage = () => {
     const history = useHistory()
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState()
-    const { currentUser, updateUserData } = useAuth()
+    const currentUser = useSelector(getCurrentUserData())
+    const { updateUserData } = useAuth()
 
     const professions = useSelector(getProfessionsList())
     const professionsLoading = useSelector(getProfessionsLoadingStatus())
