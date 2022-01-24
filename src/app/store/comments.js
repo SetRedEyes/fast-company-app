@@ -1,6 +1,7 @@
 import { createAction, createSlice } from "@reduxjs/toolkit"
 import { nanoid } from "nanoid"
 import commentService from "../services/comment.service"
+import { getCurrentUserId } from "./users"
 
 const commentsSlice = createSlice({
     name: "comments",
@@ -25,7 +26,9 @@ const commentsSlice = createSlice({
             state.entities.push(action.payload)
         },
         commentRemoved: (state, action) => {
-            state.entities.filter((el) => el.id !== action.payload.id)
+            state.entities = state.entities.filter(
+                (c) => c._id !== action.payload
+            )
         }
     }
 })
@@ -39,7 +42,8 @@ const {
     commentRemoved
 } = actions
 
-const commentCreateRequested = createAction("comments/commentCreateRequested")
+const addCommentRequested = createAction("comments/addCommentRequested")
+const removeCommentRequested = createAction("comments/removeCommentRequested")
 
 export const loadCommentsList = (userId) => async (dispatch) => {
     dispatch(commentsRequested())
@@ -51,14 +55,13 @@ export const loadCommentsList = (userId) => async (dispatch) => {
     }
 }
 
-export const createComment = (payload) => async (dispatch) => {
-    dispatch(commentCreateRequested)
+export const createComment = (payload) => async (dispatch, getState) => {
+    dispatch(addCommentRequested(payload))
     const comment = {
         ...payload,
         _id: nanoid(),
-        pageId: payload.userId,
         created_at: Date.now(),
-        userId: payload.currentUserId
+        userId: getCurrentUserId()(getState())
     }
     try {
         const { content } = await commentService.createComment(comment)
@@ -69,13 +72,12 @@ export const createComment = (payload) => async (dispatch) => {
     }
 }
 
-export const removeComment = (payload) => async (dispatch) => {
-    const { commentId, userId } = payload
+export const removeComment = (commentId) => async (dispatch) => {
+    dispatch(removeCommentRequested())
     try {
         const { content } = await commentService.removeComment(commentId)
         if (content === null) {
             dispatch(commentRemoved(commentId))
-            dispatch(loadCommentsList(userId))
         }
     } catch (error) {
         dispatch(commentsRequestFailed(error.message))

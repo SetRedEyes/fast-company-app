@@ -10,7 +10,6 @@ import {
     removeComment
 } from "../../store/comments"
 import { useParams } from "react-router-dom"
-import { getCurrentUserId } from "../../store/users"
 
 const Comments = () => {
     const { userId } = useParams()
@@ -19,17 +18,15 @@ const Comments = () => {
         dispatch(loadCommentsList(userId))
     }, [userId])
 
-    const currentUserId = useSelector(getCurrentUserId())
-
     const isLoading = useSelector(getCommentsLoadingStatus())
     const comments = useSelector(getComments())
 
     const handleSubmit = (data) => {
-        dispatch(createComment({ ...data, userId, currentUserId }))
+        dispatch(createComment({ ...data, pageId: userId }))
     }
 
     const handleRemoveComment = (id) => {
-        dispatch(removeComment({ commentId: id, userId }))
+        dispatch(removeComment(id))
     }
 
     const sortedComments = orderBy(comments, ["created_at"], ["desc"])
