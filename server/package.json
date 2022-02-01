@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "serve": "nodemon app.js"
+    "start": "cross-env NODE=production node app.js",
+    "serve": "cross-env NODE=development nodemon app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chalk": "^5.0.0",
+    "chalk": "^4.1.2",
     "config": "^3.3.7",
     "express": "^4.17.2",
     "mongoose": "^6.1.9"
