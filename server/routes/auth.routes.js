@@ -143,6 +143,41 @@ router.post('/signInWithPassword', [
     }
   }
 ])
-router.post('/token', async (req, response) => {})
+
+function isTokenInvalid(data, dbToken) {
+  return (
+    !data ||
+    !dbToken ||
+    data._id !== dbToken?.user?.toString()
+  )
+}
+
+router.post('/token', async (req, res) => {
+  try {
+    const { refresh_token: refreshToken } = req.body
+    //return userID
+    const data = tokenService.validateRefresh(refreshToken)
+    //return token model
+    const dbToken = await tokenService.findToken(
+      refreshToken
+    )
+    if (isTokenInvalid(data, dbToken)) {
+      return res
+        .status(401)
+        .json({ message: 'Unauthorized' })
+    }
+
+    const tokens = await tokenService.generate({
+      _id: data._id
+    })
+    await tokenService.save(data._id, tokens.refreshToken)
+
+    res.status(200).send({ ...tokens, userId: data._id })
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'Server error. Try again later.' })
+  }
+})
 
 module.exports = router

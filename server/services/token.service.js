@@ -22,6 +22,7 @@ class TokenService {
       expiresIn: 3600
     }
   }
+
   async save(userId, refreshToken) {
     const data = await Token.findOne({ user: userId })
     if (data) {
@@ -35,6 +36,25 @@ class TokenService {
     })
 
     return token
+  }
+
+  validateRefresh(refreshToken) {
+    try {
+      return jwt.verify(
+        refreshToken,
+        config.get('refreshSecret')
+      )
+    } catch (e) {
+      return null
+    }
+  }
+
+  async findToken(refreshToken) {
+    try {
+      return await Token.findOne({ refreshToken })
+    } catch (e) {
+      return null
+    }
   }
 }
 
