@@ -49,6 +49,17 @@ class TokenService {
     }
   }
 
+  validateAccess(accessToken) {
+    try {
+      return jwt.verify(
+        accessToken,
+        config.get('accessSecret')
+      )
+    } catch (e) {
+      return null
+    }
+  }
+
   async findToken(refreshToken) {
     try {
       return await Token.findOne({ refreshToken })
