@@ -9,7 +9,9 @@ router
   .get(auth, async (req, res) => {
     try {
       const { orderBy, equalTo } = req.query
-      const list = Comment.find({ [orderBy]: equalTo })
+      const list = await Comment.find({
+        [orderBy]: equalTo
+      })
       res.send(list)
     } catch (e) {
       res
@@ -32,7 +34,7 @@ router
     }
   })
 
-router.delete(':/commentId', auth, async (req, res) => {
+router.delete('/:commentId', auth, async (req, res) => {
   try {
     const { commentId } = req.params
     // const removedComment = await Comment.find({_id: commentId })
@@ -41,9 +43,8 @@ router.delete(':/commentId', auth, async (req, res) => {
     if (removedComment.userId.toString() === req.user._id) {
       await removedComment.remove()
       return res.send(null)
-    }else{
-    res.status(401).json({ message: 'Unauthorized' })
-
+    } else {
+      res.status(401).json({ message: 'Unauthorized' })
     }
   } catch (e) {
     res
