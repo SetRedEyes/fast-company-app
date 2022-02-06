@@ -38,7 +38,7 @@ export const loadProfessionsList = () => async (dispatch, getState) => {
             const { content } = await professionService.get()
             dispatch(professionsRecieved(content))
         } catch (error) {
-            dispatch(professionsRequestFailed(error))
+            dispatch(professionsRequestFailed(error.message))
         }
     }
 }
