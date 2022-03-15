@@ -1,5 +1,5 @@
 # fast-company-fullstack-app
-Dating app
+Dating app.
 
 # Getting Started with Create React App
 
