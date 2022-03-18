@@ -10,7 +10,7 @@ const Main = () => {
     return (
         <div className="container mt-5">
             <h1> MainPage</h1>
-            <h2>Войдите или зарегистрируйтесь для доступа списку пользователей </h2>
+            <h2>Log in or sign in for full access to users list</h2>
             {/* <h3>Инициализация данных в FireBase</h3>
             <ul>
                 <li>Status:{status}</li>
