@@ -80,10 +80,10 @@ interface Quality {
 }
 ```
 
-| URL                   | Auth      | Type            | Body               |        Query  |Return                    |
-| :--------             | :-------  | :-------------- |:-------------------|:--------------| 
-| /api/user/:id        | `true`     | `patch`         |  User              |               |
-| /api/user/:id             | `true`| `get`           |  User              |               |
+| URL                   | Auth      | Type            | Body               |        Query  |Return          |
+| :--------             | :-------  | :-------------- |:-------------------|:--------------|:-------------- |
+| /api/user/:id        | `true`     | `patch`         |  User              |       null        |	User|
+| /api/user/:id             | `true`| `get`           |  null             |         null      |		User[]|
 
 ## Authors
 
