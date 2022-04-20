@@ -10,11 +10,11 @@ const NavBar = () => {
         <nav className="navbar bg-light mb-3">
             <div className="container-fluid">
                 <ul className="nav">
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <Link className="nav-link" aria-current="page" to="/">
                             Main
                         </Link>
-                    </li>
+                    </li> */}
                     {isLoggedIn && (
                         <li className="nav-item">
                             <Link className="nav-link" to="/users">
