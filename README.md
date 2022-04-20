@@ -1,6 +1,95 @@
 # fast-company-fullstack-app
 Dating app.
 
+Built with React, React-Bootstrap, Redux Toolkit, NodeJS, Docker  
+
+
+## Api Endpoints
+
+#### Auth
+
+```
+  interface Tokens {
+	  userId: string
+	  accessToken: string
+	  refreshToken: string
+	  exporesIn: number
+}
+```
+
+| URL                              | Type      | Body                                                                  |Desc               |Return
+| :--------                         | :-------  | :-------------------------                                           | :--------------- | :--------------- |
+| /api/auth/signUp                  | `post`    | email, password, sex, profession, quality[], name                    | register           |Tokens
+| /api/auth/signInWithPassword     | `post`    | email, password                                                       |     login          |Tokens
+| /api/auth/token                   | `post`    | refresh_token                                                        |     refresh token  |Tokens
+
+#### Comment
+
+```
+ interface Comment {
+	content: string
+	pageId: 
+	userId: string
+}
+```
+
+| URL                   | Auth      | Type                 |Body                  | Query             | Return    |
+| :--------             | :-------  | :--------------------|:---------------------|:------------------|:--------  |
+| /api/company          | `true`   | `get`                 |        null          |  orderBy, equalTo |  Comment[]|
+| /api/comment          |  `true`   | post                 |      Comment         |      null         |  Comment  |
+| /api/comment/:id      |  `true`   |   delete             |        null          |       null        |   null    |
+
+#### Profession
+
+```
+ interface Profession {
+	name: string
+}
+```
+
+| URL                   | Auth   | Type |Body    | 	Query | Return             |
+| :--------             | :------|:-----|:-------|:-------|:-------------------|
+| /api/profession        | `false`| `get`| null   | null   | Profession[]       |
+
+#### Quality
+
+```
+interface Quality {
+	name: string
+	color: string
+}
+```
+
+| URL                   | Auth   | Type |Body    | 	Query | Return             |
+| :--------             | :------|:-----|:-------|:-------|:-------------------|
+| /api/quality         | `false`| `get`| null   | null   |Quality[]       |
+
+
+#### User
+
+```
+  interface Company {
+ 	firstName: string
+	lastName: string
+	email: string
+	password: string
+	phone: string
+	city: string
+	postOfficeNumber: string
+	
+}
+```
+
+| URL                   | Auth      | Type            | Body               |        Query  |Return          |
+| :--------             | :-------  | :-------------- |:-------------------|:--------------|:-------------- |
+| /api/user/:id        | `true`     | `patch`         |  User              |       null        |	User|
+| /api/user/:id             | `true`| `get`           |  null             |         null      |		User[]|
+
+## Authors
+
+- [@SetRedEyes](https://www.github.com/SetRedEyes)
+
+##
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
