@@ -1,9 +1,6 @@
 # fast-company-fullstack-app
 Dating app.
 
-Built with React, React-Bootstrap, Redux Toolkit, NodeJS, Docker  
-
-
 ## Api Endpoints
 
 #### Auth
